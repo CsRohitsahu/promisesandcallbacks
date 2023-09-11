@@ -1,0 +1,48 @@
+<html>
+<head>
+  <script>
+    // A function that fetches data from an API using the Fetch method
+    function fetchData() {
+      // The URL of the API
+      let url = "https://jsonplaceholder.typicode.com/posts/123456789";
+      // Fetch the data from the URL and return a promise
+      return fetch(url)
+        .then(response => {
+          // If the response is not OK, throw an error with the status text
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          // Otherwise, return the response as JSON
+          return response.json();
+        })
+        .catch(error => {
+          // If an error occurs, return the error message
+          return error.message;
+        });
+    }
+
+    // A function that displays the data or the error on the webpage
+    function displayData() {
+      // Get the element where the data or the error will be displayed
+      let output = document.getElementById("output");
+      // Call the fetchData function and handle the promise
+      fetchData()
+        .then(data => {
+          // If the data is an object, display its title and body as text
+          if (typeof data === "object") {
+            output.textContent = data.title + "\n" + data.body;
+          }
+          // Otherwise, display the data as an error message
+          else {
+            output.textContent = "Error: " + data;
+          }
+        });
+    }
+  </script>
+</head>
+<body>
+  <h1>Fetch Data Example</h1>
+  <p id="output">Loading...</p>
+  <button onclick="displayData()">Fetch Data</button>
+</body>
+</html>
